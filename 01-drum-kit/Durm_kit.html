@@ -8,6 +8,12 @@
 </head>
 <body>
 
+  <div id="status-bar">
+    <button id="mic-toggle">🎤 Start Voice</button>
+    <span id="status">Mic: Off</span>
+    <span id="last-heard">Heard: —</span>
+  </div>
+
   <div class="keys">
     <div data-key="KeyA" class="key"><kbd>A</kbd><span class="sound">clap</span></div>
     <div data-key="KeyS" class="key"><kbd>S</kbd><span class="sound">hihat</span></div>
@@ -20,7 +26,6 @@
     <div data-key="KeyL" class="key"><kbd>L</kbd><span class="sound">tink</span></div>
   </div>
 
-  <!-- Audio Files -->
   <audio data-key="KeyA" src="sounds/clap.wav"></audio>
   <audio data-key="KeyS" src="sounds/hihat.wav"></audio>
   <audio data-key="KeyD" src="sounds/kick.wav"></audio>
@@ -31,59 +36,6 @@
   <audio data-key="KeyK" src="sounds/tom.wav"></audio>
   <audio data-key="KeyL" src="sounds/tink.wav"></audio>
 
-  <script>
-    // --- 1. Core Logic: Sound & Animation ---
-    function playSound(code) {
-      const audio = document.querySelector(`audio[data-key="${code}"]`);
-      const key = document.querySelector(`div[data-key="${code}"]`);
-      
-      if (!audio) return;
-
-      key.classList.add('playing');
-      audio.currentTime = 0; // Rewind to start
-      audio.play();
-    }
-
-    function removeTransition(e) {
-      if (e.propertyName !== 'transform') return;
-      e.target.classList.remove('playing');
-    }
-
-    // --- 2. Event Listeners ---
-    const keys = Array.from(document.querySelectorAll('.key'));
-    keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-
-    window.addEventListener('keydown', (e) => {
-      playSound(e.code); // e.code returns 'KeyA', 'KeyS' etc.
-    });
-
-    // --- 3. AI Voice Integration ---
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (SpeechRecognition) {
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.continuous = true;
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
-        recognition.onaudiostart = () => console.log("Mic ne awaaz sun-na shuru kar di hai...");
-        console.log("AI Detected:", transcript);
-
-        // Mapping Voice to Keys
-        if (transcript.includes('clap')) playSound('KeyA');
-        if (transcript.includes('hi hat')) playSound('KeyS');
-        if (transcript.includes('kick')) playSound('KeyD');
-        if (transcript.includes('boom')) playSound('KeyG');
-        if (transcript.includes('open')) playSound('KeyF');
-        if (transcript.includes('snare')) playSound('KeyJ');
-      };
-
-      recognition.start();
-      console.log("AI Voice System Active. Try saying 'Clap' or 'Kick'!");
-    } else {
-      alert("Aapka browser AI Voice support nahi karta. Please Chrome use karein.");
-    }
-  </script>
+  <script src="durm.js"></script>
 </body>
 </html>

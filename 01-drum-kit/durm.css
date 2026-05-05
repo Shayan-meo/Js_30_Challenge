@@ -49,3 +49,37 @@ kbd {
   letter-spacing: .1rem;
   color: #ffc600;
 }
+
+#status-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 1.4rem;
+  z-index: 10;
+}
+
+#mic-toggle {
+  font-size: 1.4rem;
+  padding: .6rem 1.2rem;
+  border: .2rem solid #ffc600;
+  background: transparent;
+  color: #ffc600;
+  border-radius: .4rem;
+  cursor: pointer;
+}
+
+#mic-toggle:hover {
+  background: #ffc600;
+  color: black;
+}
+
+#status, #last-heard {
+  opacity: .9;
+}
